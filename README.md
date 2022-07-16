@@ -23,153 +23,153 @@
     docker exec -it 'debian-baidunetdisk-v1.0-container' bash
 
 ## 容器内操作这部分可以作为构建镜像流程
-        ## 检查环境变量传入情况
-        echo -e 'novnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
-        ## 改时区
-        date '+%Y-%m-%d %H:%M:%S'
-        cp -rv /etc/localtime /etc/localtime.bak.`date '+%Y-%m-%d_%H-%M-%S'`
-        rm -rfv /etc/localtime
-        ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-        echo "Asia/Shanghai" > /etc/timezone
-        date '+%Y-%m-%d %H:%M:%S'
-    
-        ## 更新源安装 https 支持执行三次避免失败
-        for((i=1;i<4;i++)) ; do
-            echo "try $i"
-            ## 更新软件列表源
-            apt update
-            ## 防止遇到无法拉取 https 源的情况，先使用 http 源并安装
-            apt-get -y install apt-transport-https ca-certificates apt-utils
-        done
-    
-        ## 备份源
-        cp -rv /etc/apt/sources.list /etc/apt/sources.list.bak
-    
-        ## 写入清华源
-        cat << EOF > /etc/apt/sources.list
-        deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
-        deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
-        deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
-        deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
-        deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
-        deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
-        deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
-        deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
-        EOF
-    
-        ## 更新源执行三次避免失败
-        for((i=1;i<4;i++)) ; do
-            echo "try $i"
-            ## 更新软件列表源
-            apt update ; apt-get -y install locales
-        done
-    
-        ## 使用locale-gen命令生成中文本地支持
-        sed -i 's;## zh_CN.UTF-8 UTF-8;zh_CN.UTF-8 UTF-8;g' /etc/locale.gen
-        locale-gen zh_CN ; locale-gen zh_CN.UTF-8
-    
-        ## 写入环境变量
-        cat << EOF >> /root/.bashrc
-        export LANG=zh_CN.UTF-8
-        export LC_ALL=zh_CN.UTF-8
-        export LANGUAGE=zh_CN.UTF-8
-        EOF
-    
-        cat << EOF >> /root/.profile
-        export LANG=zh_CN.UTF-8
-        export LC_ALL=zh_CN.UTF-8
-        export LANGUAGE=zh_CN.UTF-8
-        EOF
-    
-        source /root/.bashrc /root/.profile
-    
-        locale ; locale -a
-    
-        ## 持久化
-        update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 LANGUAGE=zh_CN.UTF-8
-    
-        ## 看看当前启用的本地支持
-        cat /etc/default/locale
-    
-        ## 执行三次避免失败
-        for((i=1;i<4;i++)) ; do
-            echo "try $i"
-            ## 安装虚拟监视器、x11vnc、中文字体、本地字符集管理和 novnc 
-            apt-get -y install xvfb x11vnc fonts-noto-cjk  novnc net-tools
-    
-            ## 安装并解决依赖问题
-            apt-get -y install libgbm-dev libasound2 ; dpkg -i /root/*.deb ; apt-get -y install -f
-        done
-    
-        ##  novnc 软连接
-        ln -sv /usr/share/novnc/utils/launch.sh /usr/bin/novnc
-        ## 证书百年
-        ## openssl req -x509 -nodes -newkey rsa:3072 -keyout novnc.pem -out /config/novnc.pem -days 36500
-    
-        ## 清理
-        apt-get -y autoremove ; apt-get -y autopurge ; apt-get clean ; rm -rfv  /var/lib/apt/lists/* /root/*.deb
-    
-        ## 解除环境变量
-        unset NOVNC_PORT
-        unset VNC_PORT
-        unset VNC_PASSWORD
-    
-        ## 还原源
-        mv -v /etc/apt/sources.list.bak /etc/apt/sources.list
-    
-        ## 清除记录
-        history -c ; echo '' > /root/.bash_history
-    
-        ## 以上如果作为构建流程那已经走完
-    
-        ## 最后构建镜像的时候把以下启动的过程写到一个脚本里面并在构建镜像的时候使用 CMD 指令执行脚本
-        echo -e 'novnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
-        ## 判断密码环境
-        rm -rfv /config/passwd
-        if [ "${VNC_PASSWORD}x"!="x" ]
-        then
-            ## 写入密码
-    
-            x11vnc -storepasswd ${VNC_PASSWORD} /config/passwd
-        else
-            export VNC_PASSWORD=123456
-            ## 写入密码
-            x11vnc -storepasswd ${VNC_PASSWORD} /config/passwd
-        fi
-    
-        ## 创建虚拟监视器 DISPLAY=:0
-        nohup Xvfb :0 > /tmp/xvfb.log 2>&1 &
-    
-        ## 判断 VNC 端口环境
-        if [ "${VNC_PORT}x"!="x" ]
-        then
-            ## x11vnc 启动
-            nohup x11vnc -display :0 -rfbport ${VNC_PORT} -rfbauth /config/passwd > /tmp/x11vnc.log 2>&1 &
-        else
-            ## x11vnc 启动
-            eport VNC_PORT=5902
-            nohup x11vnc -display :0 -rfbport ${VNC_PORT} -rfbauth /config/passwd > /tmp/x11vnc.log 2>&1 &
-        fi
-    
-        ## 判断 NOVNC 端口环境
-        if [ "${NOVNC_PORT}x"!="x" ]
-        then
-            ## novnc 启动 启动证书不好使？
-            ## nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} --cert novnc.pem > /tmp/novnc.log 2>&1 &
-            nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} > /tmp/novnc.log 2>&1 &
-        else
-            eport NOVNC_PORT=36080
-            ## novnc 启动证书不好使？
-            ## nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} --cert novnc.pem > /tmp/novnc.log 2>&1 &
-            nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} > /tmp/novnc.log 2>&1 &
-        fi
-    
-        ## 启动x终端执行
-        nohup x-terminal-emulator -display :0 -e '/opt/baidunetdisk/baidunetdisk --no-sandbox' > /tmp/x-terminal-emulator.log 2>&1 &
-    
-        ##  干掉所有进程 
-        ## procps
-        ## killall -v websockify x11vnc baidunetdisk xterm Xvfb
+    ## 检查环境变量传入情况
+    echo -e 'novnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
+    ## 改时区
+    date '+%Y-%m-%d %H:%M:%S'
+    cp -rv /etc/localtime /etc/localtime.bak.`date '+%Y-%m-%d_%H-%M-%S'`
+    rm -rfv /etc/localtime
+    ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    echo "Asia/Shanghai" > /etc/timezone
+    date '+%Y-%m-%d %H:%M:%S'
+
+    ## 更新源安装 https 支持执行三次避免失败
+    for((i=1;i<4;i++)) ; do
+        echo "try $i"
+        ## 更新软件列表源
+        apt update
+        ## 防止遇到无法拉取 https 源的情况，先使用 http 源并安装
+        apt-get -y install apt-transport-https ca-certificates apt-utils
+    done
+
+    ## 备份源
+    cp -rv /etc/apt/sources.list /etc/apt/sources.list.bak
+
+    ## 写入清华源
+    cat << EOF > /etc/apt/sources.list
+    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+    deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+    EOF
+
+    ## 更新源执行三次避免失败
+    for((i=1;i<4;i++)) ; do
+        echo "try $i"
+        ## 更新软件列表源
+        apt update ; apt-get -y install locales
+    done
+
+    ## 使用locale-gen命令生成中文本地支持
+    sed -i 's;## zh_CN.UTF-8 UTF-8;zh_CN.UTF-8 UTF-8;g' /etc/locale.gen
+    locale-gen zh_CN ; locale-gen zh_CN.UTF-8
+
+    ## 写入环境变量
+    cat << EOF >> /root/.bashrc
+    export LANG=zh_CN.UTF-8
+    export LC_ALL=zh_CN.UTF-8
+    export LANGUAGE=zh_CN.UTF-8
+    EOF
+
+    cat << EOF >> /root/.profile
+    export LANG=zh_CN.UTF-8
+    export LC_ALL=zh_CN.UTF-8
+    export LANGUAGE=zh_CN.UTF-8
+    EOF
+
+    source /root/.bashrc /root/.profile
+
+    locale ; locale -a
+
+    ## 持久化
+    update-locale LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 LANGUAGE=zh_CN.UTF-8
+
+    ## 看看当前启用的本地支持
+    cat /etc/default/locale
+
+    ## 执行三次避免失败
+    for((i=1;i<4;i++)) ; do
+        echo "try $i"
+        ## 安装虚拟监视器、x11vnc、中文字体、本地字符集管理和 novnc 
+        apt-get -y install xvfb x11vnc fonts-noto-cjk  novnc net-tools
+
+        ## 安装并解决依赖问题
+        apt-get -y install libgbm-dev libasound2 ; dpkg -i /root/*.deb ; apt-get -y install -f
+    done
+
+    ##  novnc 软连接
+    ln -sv /usr/share/novnc/utils/launch.sh /usr/bin/novnc
+    ## 证书百年
+    ## openssl req -x509 -nodes -newkey rsa:3072 -keyout novnc.pem -out /config/novnc.pem -days 36500
+
+    ## 清理
+    apt-get -y autoremove ; apt-get -y autopurge ; apt-get clean ; rm -rfv  /var/lib/apt/lists/* /root/*.deb
+
+    ## 解除环境变量
+    unset NOVNC_PORT
+    unset VNC_PORT
+    unset VNC_PASSWORD
+
+    ## 还原源
+    mv -v /etc/apt/sources.list.bak /etc/apt/sources.list
+
+    ## 清除记录
+    history -c ; echo '' > /root/.bash_history
+
+    ## 以上如果作为构建流程那已经走完
+
+    ## 最后构建镜像的时候把以下启动的过程写到一个脚本里面并在构建镜像的时候使用 CMD 指令执行脚本
+    echo -e 'novnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
+    ## 判断密码环境
+    rm -rfv /config/passwd
+    if [ "${VNC_PASSWORD}x"!="x" ]
+    then
+        ## 写入密码
+
+        x11vnc -storepasswd ${VNC_PASSWORD} /config/passwd
+    else
+        export VNC_PASSWORD=123456
+        ## 写入密码
+        x11vnc -storepasswd ${VNC_PASSWORD} /config/passwd
+    fi
+
+    ## 创建虚拟监视器 DISPLAY=:0
+    nohup Xvfb :0 > /tmp/xvfb.log 2>&1 &
+
+    ## 判断 VNC 端口环境
+    if [ "${VNC_PORT}x"!="x" ]
+    then
+        ## x11vnc 启动
+        nohup x11vnc -display :0 -rfbport ${VNC_PORT} -rfbauth /config/passwd > /tmp/x11vnc.log 2>&1 &
+    else
+        ## x11vnc 启动
+        eport VNC_PORT=5902
+        nohup x11vnc -display :0 -rfbport ${VNC_PORT} -rfbauth /config/passwd > /tmp/x11vnc.log 2>&1 &
+    fi
+
+    ## 判断 NOVNC 端口环境
+    if [ "${NOVNC_PORT}x"!="x" ]
+    then
+        ## novnc 启动 启动证书不好使？
+        ## nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} --cert novnc.pem > /tmp/novnc.log 2>&1 &
+        nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} > /tmp/novnc.log 2>&1 &
+    else
+        eport NOVNC_PORT=36080
+        ## novnc 启动证书不好使？
+        ## nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} --cert novnc.pem > /tmp/novnc.log 2>&1 &
+        nohup novnc --listen ${NOVNC_PORT} --vnc localhost:${VNC_PORT} > /tmp/novnc.log 2>&1 &
+    fi
+
+    ## 启动x终端执行
+    nohup x-terminal-emulator -display :0 -e '/opt/baidunetdisk/baidunetdisk --no-sandbox' > /tmp/x-terminal-emulator.log 2>&1 &
+
+    ##  干掉所有进程 
+    ## procps
+    ## killall -v websockify x11vnc baidunetdisk xterm Xvfb
 ## 访问测试 ok
     http://主机IP:36080/vnc.html
 
@@ -186,19 +186,19 @@
     感谢 Debian Linux 的依赖包
 
 ## 参考
-            tmoe：https://github.com/2moe/tmoe
-            百度网盘 arm64 安装包：http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/4.10.5/baidunetdisk_4.10.5_arm64.deb
-            arm64 百度网盘依赖包 libindicator3-7 ：https://packages.debian.org/buster/libindicator3-7
-            arm64 百度网盘依赖包 libappindicator3-1 ：https://packages.debian.org/buster/libappindicator3-1
-            百度官网更新日志：https://pan.baidu.com/disk/version
-            如何编写优雅的Dockerfile：https://zhuanlan.zhihu.com/p/79949030
-            Compose specification：https://docs.docker.com/compose/compose-file/
-            docker run：https://docs.docker.com/engine/reference/commandline/run/
-            if command in linux with examples：https://www.geeksforgeeks.org/if-command-in-linux-with-examples/
-            Password problem x11vnc：https://unix.stackexchange.com/questions/405185/password-problem-x11vnc#405324
-            Docker、ShutIt and The Perfect 2048 Game：https://zwischenzugs.com/2014/05/09/docker-shutit-and-the-perfect-2048-game/
-            ps command does not work in docker container：https://stackoverflow.com/questions/26982274/ps-command-doesnt-work-in-docker-container
-            Automation framework for programmers：https://ianmiell.github.io/shutit/
-            Running a GUI application in a Docker container：https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/
-            X11vnc：https://wiki.archlinux.org/title/X11vnc#Installation
+    tmoe：https://github.com/2moe/tmoe
+    百度网盘 arm64 安装包：http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/4.10.5/baidunetdisk_4.10.5_arm64.deb
+    arm64 百度网盘依赖包 libindicator3-7 ：https://packages.debian.org/buster/libindicator3-7
+    arm64 百度网盘依赖包 libappindicator3-1 ：https://packages.debian.org/buster/libappindicator3-1
+    百度官网更新日志：https://pan.baidu.com/disk/version
+    如何编写优雅的Dockerfile：https://zhuanlan.zhihu.com/p/79949030
+    Compose specification：https://docs.docker.com/compose/compose-file/
+    docker run：https://docs.docker.com/engine/reference/commandline/run/
+    if command in linux with examples：https://www.geeksforgeeks.org/if-command-in-linux-with-examples/
+    Password problem x11vnc：https://unix.stackexchange.com/questions/405185/password-problem-x11vnc#405324
+    Docker、ShutIt and The Perfect 2048 Game：https://zwischenzugs.com/2014/05/09/docker-shutit-and-the-perfect-2048-game/
+    ps command does not work in docker container：https://stackoverflow.com/questions/26982274/ps-command-doesnt-work-in-docker-container
+    Automation framework for programmers：https://ianmiell.github.io/shutit/
+    Running a GUI application in a Docker container：https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/
+    X11vnc：https://wiki.archlinux.org/title/X11vnc#Installation
 

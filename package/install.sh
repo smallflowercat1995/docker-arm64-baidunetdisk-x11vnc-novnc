@@ -72,7 +72,7 @@ install_baidunetdisk(){
 for((i=1;i<4;i++)) ; do
     echo "try $i"
     # 安装虚拟监视器、x11vnc、中文字体、本地字符集管理和 novnc 
-    apt-get -y install xvfb x11vnc fonts-noto-cjk novnc net-tools
+    apt-get -y install xvfb x11vnc fonts-noto-cjk novnc net-tools procps
 
     # 安装并解决依赖问题
     apt-get -y install libgbm-dev libasound2 ; dpkg -i /root/*.deb ; apt-get -y install -f

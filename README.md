@@ -186,19 +186,19 @@
     感谢 Debian Linux 的依赖包
 
 ## 参考
-    tmoe：https://github.com/2moe/tmoe
-    百度网盘 arm64 安装包：http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/4.10.5/baidunetdisk_4.10.5_arm64.deb
-    arm64 百度网盘依赖包 libindicator3-7 ：https://packages.debian.org/buster/libindicator3-7
-    arm64 百度网盘依赖包 libappindicator3-1 ：https://packages.debian.org/buster/libappindicator3-1
-    百度官网更新日志：https://pan.baidu.com/disk/version
-    如何编写优雅的Dockerfile：https://zhuanlan.zhihu.com/p/79949030
-    Compose specification：https://docs.docker.com/compose/compose-file/
-    docker run：https://docs.docker.com/engine/reference/commandline/run/
-    if command in linux with examples：https://www.geeksforgeeks.org/if-command-in-linux-with-examples/
-    Password problem x11vnc：https://unix.stackexchange.com/questions/405185/password-problem-x11vnc#405324
-    Docker、ShutIt and The Perfect 2048 Game：https://zwischenzugs.com/2014/05/09/docker-shutit-and-the-perfect-2048-game/
-    ps command does not work in docker container：https://stackoverflow.com/questions/26982274/ps-command-doesnt-work-in-docker-container
-    Automation framework for programmers：https://ianmiell.github.io/shutit/
-    Running a GUI application in a Docker container：https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/
-    X11vnc：https://wiki.archlinux.org/title/X11vnc#Installation
+tmoe：https://github.com/2moe/tmoe
+百度网盘 arm64 安装包：http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/4.10.5/baidunetdisk_4.10.5_arm64.deb
+arm64 百度网盘依赖包 libindicator3-7 ：https://packages.debian.org/buster/libindicator3-7
+arm64 百度网盘依赖包 libappindicator3-1 ：https://packages.debian.org/buster/libappindicator3-1
+百度官网更新日志：https://pan.baidu.com/disk/version
+如何编写优雅的Dockerfile：https://zhuanlan.zhihu.com/p/79949030
+Compose specification：https://docs.docker.com/compose/compose-file/
+docker run：https://docs.docker.com/engine/reference/commandline/run/
+if command in linux with examples：https://www.geeksforgeeks.org/if-command-in-linux-with-examples/
+Password problem x11vnc：https://unix.stackexchange.com/questions/405185/password-problem-x11vnc#405324
+Docker、ShutIt and The Perfect 2048 Game：https://zwischenzugs.com/2014/05/09/docker-shutit-and-the-perfect-2048-game/
+ps command does not work in docker container：https://stackoverflow.com/questions/26982274/ps-command-doesnt-work-in-docker-container
+Automation framework for programmers：https://ianmiell.github.io/shutit/
+Running a GUI application in a Docker container：https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/
+X11vnc：https://wiki.archlinux.org/title/X11vnc#Installation
 

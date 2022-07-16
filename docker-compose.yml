@@ -1,0 +1,18 @@
+version: "3.9"
+volumes:
+  baidunetdisk_storage:
+    external: true
+services:
+  baidunetdisk-app:
+    build: .
+    image: debian-baidunetdisk:v1.0
+    container_name: debian-baidunetdisk-v1.0-container
+    restart: always
+    ports:
+      - "5902:5903"
+      - "36080:36081"
+    env_file:
+      - environment.env
+    volumes:
+      - ../docker-container/baidunetdisk/baidunetdiskdownload:/baidunetdiskdownload:rw
+      - ../docker-container/baidunetdisk/config:/config:rw

@@ -177,13 +177,13 @@
     docker stop 'debian-baidunetdisk-v1.0-container' ; docker rm -f 'debian-baidunetdisk-v1.0-container'
 
 ## 注意
-1、启动百度网盘登陆后需要将默认下载路径修改为 /baidunetdiskdownload 配置始终. 
-2、设置弹窗无法消除，经过测试可以通过拖动设置弹窗后面的文件夹使设置弹窗消失，虽然这么描述，但是我觉得可能还是有人会不理解，哈哈>V<. 
+1、启动百度网盘登陆后需要将默认下载路径修改为 /baidunetdiskdownload 配置始终  
+2、设置弹窗无法消除，经过测试可以通过拖动设置弹窗后面的文件夹使设置弹窗消失，虽然这么描述，但是我觉得可能还是有人会不理解，哈哈>V<  
 
 ## 感谢
-2moe 大佬的 tmoe 项目脚本作为参考，经过反复的实践和分析，我终于找到了简单的部署步骤. 
-感谢 Arch Linux 百度网盘开发者提供的 arm64 版本安装包，虽然最新版本已经没了，好在官方提供了旧的版本包. 
-感谢 Debian Linux 的依赖包. 
+2moe 大佬的 tmoe 项目脚本作为参考，经过反复的实践和分析，我终于找到了简单的部署步骤  
+感谢 Arch Linux 百度网盘开发者提供的 arm64 版本安装包，虽然最新版本已经没了，好在官方提供了旧的版本包  
+感谢 Debian Linux 的依赖包  
 
 ## 参考
 tmoe：https://github.com/2moe/tmoe  

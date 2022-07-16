@@ -14,7 +14,9 @@
                 bash
 
 ## 复制安装包
-    docker cp package/baidunetdisk_4.3.0_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/ ; docker cp package/libindicator3-7_0.5.0-4_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/ ; docker cp package/libappindicator3-1_0.4.92-7_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/
+    docker cp package/baidunetdisk_4.3.0_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/  
+    docker cp package/libindicator3-7_0.5.0-4_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/  
+    docker cp package/libappindicator3-1_0.4.92-7_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/  
 
 ##  启动容器
     docker start 'debian-baidunetdisk-v1.0-container'

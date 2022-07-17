@@ -95,6 +95,7 @@
     
     # 安装
     dpkg -i /root/*.deb
+    
     ## 执行三次避免失败
     for((i=1;i<4;i++)) ; do
         echo "try $i"
@@ -150,11 +151,12 @@
     echo -e '经过判断后\nnovnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
 
     # 创建虚拟监视器 DISPLAY=:0
-    nohup Xvfb :0 > /tmp/startapp.log 2>&1 &
+    Xvfb :0  &
 
     # 写入密码
     # x11vnc -storepasswd ${VNC_PASSWORD} /config/passwd
-
+    export DISPLAY=:0
+    
     # x11vnc 启动
     x11vnc -wait 50 -noxdamage -rfbport ${VNC_PORT} -passwd ${VNC_PASSWORD} -display :0 -forever -o /tmp/startapp.log -bg
 
@@ -188,6 +190,7 @@ tmoe：https://github.com/2moe/tmoe
 百度网盘 arm64 安装包：http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/4.10.5/baidunetdisk_4.10.5_arm64.deb  
 arm64 百度网盘依赖包 libindicator3-7 ：https://packages.debian.org/buster/libindicator3-7  
 arm64 百度网盘依赖包 libappindicator3-1 ：https://packages.debian.org/buster/libappindicator3-1  
+Diagnosing "cannot open display" type issues with WSLg：https://github.com/microsoft/wslg/wiki/Diagnosing-%22cannot-open-display%22-type-issues-with-WSLg  
 百度官网更新日志：https://pan.baidu.com/disk/version  
 如何编写优雅的Dockerfile：https://zhuanlan.zhihu.com/p/79949030  
 Compose specification：https://docs.docker.com/compose/compose-file/  

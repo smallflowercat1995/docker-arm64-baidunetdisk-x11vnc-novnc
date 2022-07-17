@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# 创建虚拟监视器 DISPLAY=:0
+nohup Xvfb :0 > /tmp/startapp.log 2>&1 &
+
 # 最后构建镜像的时候把以下启动的过程写到一个脚本里面并在构建镜像的时候使用 CMD 指令执行脚本
 echo -e '判断前\nnovnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
 
@@ -24,9 +27,6 @@ fi
 
 # 最后构建镜像的时候把以下启动的过程写到一个脚本里面并在构建镜像的时候使用 CMD 指令执行脚本
 echo -e '经过判断后\nnovnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
-
-# 创建虚拟监视器 DISPLAY=:0
-nohup Xvfb :0 > /tmp/startapp.log 2>&1 &
 
 # 写入密码
 # x11vnc -storepasswd ${VNC_PASSWORD} /config/passwd

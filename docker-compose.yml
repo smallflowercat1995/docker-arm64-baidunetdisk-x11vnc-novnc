@@ -15,4 +15,3 @@ services:
       - environment.env
     volumes:
       - ../docker-container/baidunetdisk/baidunetdiskdownload:/baidunetdiskdownload:rw
-      - ../docker-container/baidunetdisk/config:/config:rw

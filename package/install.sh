@@ -68,14 +68,17 @@ cat /etc/default/locale
 }
 
 install_baidunetdisk(){
+# 安装
+# dpkg -i /root/*.deb
+bash /root/dpkg-install.sh
+
 # 执行三次避免失败
 for((i=1;i<4;i++)) ; do
     echo "try $i"
-    # 安装虚拟监视器、x11vnc、中文字体、本地字符集管理和 novnc 
-    apt-get -y install xvfb x11vnc fonts-noto-cjk novnc net-tools procps
-
-    # 安装并解决依赖问题
-    apt-get -y install libgbm-dev libasound2 ; dpkg -i /root/*.deb ; apt-get -y install -f
+    # 修复缺失依赖
+    apt-get -y install -f
+    # 安装虚拟监视器、x11vnc、中文字体、本地字符集管理和 novnc 依赖
+    apt-get -y install xvfb x11vnc fonts-noto-cjk novnc net-tools procps libgbm-dev libasound2
 done
 
 #  novnc 软连接
@@ -87,7 +90,7 @@ ln -sv /usr/share/novnc/utils/launch.sh /usr/bin/novnc
 
 clean_remove(){
 # 清理
-apt-get -y autoremove ; apt-get -y autopurge ; apt-get clean ; rm -rfv  /var/lib/apt/lists/* /root/*.deb
+apt-get -y autoremove ; apt-get -y autopurge ; apt-get clean ; rm -rfv  /var/lib/apt/lists/* /root/*.deb /root/dpkg-install.sh
 
 # 解除环境变量
 unset NOVNC_PORT

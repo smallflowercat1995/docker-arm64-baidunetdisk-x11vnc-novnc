@@ -92,15 +92,15 @@
 
     ## 看看当前启用的本地支持
     cat /etc/default/locale
-
+    
+    # 安装
+    dpkg -i /root/*.deb
     ## 执行三次避免失败
     for((i=1;i<4;i++)) ; do
         echo "try $i"
-        ## 安装虚拟监视器、x11vnc、中文字体、本地字符集管理和 novnc 
-        apt-get -y install xvfb x11vnc fonts-noto-cjk  novnc net-tools
-
-        ## 安装并解决依赖问题
-        apt-get -y install libgbm-dev libasound2 ; dpkg -i /root/*.deb ; apt-get -y install -f
+        apt-get -y install -f
+        ## 安装虚拟监视器、x11vnc、中文字体、本地字符集管理、novnc 和 依赖包
+        apt-get -y install xvfb x11vnc fonts-noto-cjk  novnc net-tools libgbm-dev libasound2
     done
 
     ##  novnc 软连接

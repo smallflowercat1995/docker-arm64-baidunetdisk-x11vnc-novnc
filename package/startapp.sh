@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # 创建虚拟监视器 DISPLAY=:0
-nohup Xvfb :0 > /tmp/startapp.log 2>&1 &
+Xvfb :0 &
 
 # 最后构建镜像的时候把以下启动的过程写到一个脚本里面并在构建镜像的时候使用 CMD 指令执行脚本
 echo -e '判断前\nnovnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
 
+export DISPLAY=:0
 # 判断密码环境
 # rm -rfv /config/passwd
-
 if [ "${VNC_PASSWORD}x" = "x" ]
 then
     export VNC_PASSWORD=123456

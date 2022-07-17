@@ -147,7 +147,6 @@
         export NOVNC_PORT=36080
     fi
 
-    # 最后构建镜像的时候把以下启动的过程写到一个脚本里面并在构建镜像的时候使用 CMD 指令执行脚本
     echo -e '经过判断后\nnovnc 端口：'${NOVNC_PORT}'\nvnc 端口：'${VNC_PORT}'\n密码：'${VNC_PASSWORD}
 
     # 创建虚拟监视器 DISPLAY=:0

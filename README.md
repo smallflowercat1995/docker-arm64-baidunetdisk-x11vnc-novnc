@@ -183,6 +183,37 @@
 ## 清理测试容器，最后按照这个流程原封不动的编写构建文件构建镜像即可
     docker stop 'debian-baidunetdisk-v1.0-container' ; docker rm -f 'debian-baidunetdisk-v1.0-container'
 
+## 目录结构
+    .
+    ├── Dockerfile                                  # 这个是 docker 构建文件    
+    ├── docker-compose.yml                          # 这个是 docker-compose.yml 配置文件  
+    ├── environment.env                             # 这个是环境变量文件  
+    └── package                                     # 这个是二进制文件、脚本、配置文件所在目录  
+        ├── baidunetdisk_4.3.0_arm64.deb            # 这个是百度网盘 arm64 安装包  
+        ├── dpkg-install.sh                         # 这个是构建镜像的时候在容器内执行流程的子脚本  
+        ├── install.sh                              # 这个是构建镜像的时候在容器内执行流程的脚本   
+        ├── libappindicator3-1_0.4.92-7_arm64.deb   # 这个是百度网盘 arm64 依赖   
+        ├── libindicator3-7_0.5.0-4_arm64.deb       # 这个是百度网盘 arm64 依赖   
+        └── startapp.sh                             # 这个是启动服务的脚本  
+
+
+## 依赖
+    arm64 设备
+    docker 程序
+    docker-compose python程序
+    我目前能想到的必要程序就这些吧
+
+## 构建命令
+    # clone 项目
+    git clone https://github.com/smallflowercat1995/docker-arm64-resilio-sync.git
+    # 进入目录
+    cd docker-arm64-resilio-sync
+    # 无缓存构建
+    docker-compose build --no-cache
+
+## 构建完成后 后台启动
+    docker-compose up -d
+
 ## 注意
 1、启动百度网盘登陆后需要将默认下载路径修改为 /baidunetdiskdownload 配置始终  
 2、设置弹窗无法消除，经过测试可以通过拖动设置弹窗后面的文件夹使设置弹窗消失，虽然这么描述，但是我觉得可能还是有人会不理解，哈哈>V<

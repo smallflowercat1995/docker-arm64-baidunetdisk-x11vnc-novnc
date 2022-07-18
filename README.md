@@ -187,7 +187,7 @@
     .
     ├── Dockerfile                                  # 这个是 docker 构建文件    
     ├── docker-compose.yml                          # 这个是 docker-compose.yml 配置文件  
-    ├── environment.env                             # 这个是环境变量文件  
+    ├── environment.env                             # 这个是环境变量文件按自己的需求修改 默认 novnc 端口号:36081 x11vnc 端口号:5903  x11vnc 密码:123123
     └── package                                     # 这个是二进制文件、脚本、配置文件所在目录  
         ├── baidunetdisk_4.3.0_arm64.deb            # 这个是百度网盘 arm64 安装包  
         ├── dpkg-install.sh                         # 这个是构建镜像的时候在容器内执行流程的子脚本  

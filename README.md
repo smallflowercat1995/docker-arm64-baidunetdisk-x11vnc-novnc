@@ -205,9 +205,9 @@
 
 ## 构建命令
     # clone 项目
-    git clone https://github.com/smallflowercat1995/docker-arm64-resilio-sync.git
+    git clone https://github.com/smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc.git
     # 进入目录
-    cd docker-arm64-resilio-sync
+    cd docker-arm64-baidunetdisk-x11vnc-novnc
     # 无缓存构建
     docker-compose build --no-cache
 

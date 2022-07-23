@@ -227,8 +227,6 @@
     cd /mnt/sdb1/build-debian-baidunetdisk
     # 进入容器
     docker-compose exec -it baidunetdisk-app bash
-    # 干掉还活着的进程（竟然还活着，太顽强了哇！！）
-    killall -v websockify x11vnc baidunetdisk xterm Xvfb
     # 执行服务启动脚本 
     bash /root/startapp.sh
     # 退出容器，ctrl + D ，这次总该可以了吧？

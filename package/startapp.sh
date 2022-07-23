@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-killall  websockify x11vnc Xvfb
+killall  websockify x11vnc Xvfb tail
 # 创建虚拟监视器 DISPLAY=:0
 Xvfb :0 &
 
@@ -41,4 +41,5 @@ websockify -D --log-file=/tmp/startapp.log --web=/usr/share/novnc/ ${NOVNC_PORT}
 
 # 启动x终端执行
 nohup x-terminal-emulator -display :0 -e '/opt/baidunetdisk/baidunetdisk --no-sandbox' > /tmp/startapp.log 2>&1 &
-
+# 查看日志
+tail -f -n 200 /tmp/startapp.log

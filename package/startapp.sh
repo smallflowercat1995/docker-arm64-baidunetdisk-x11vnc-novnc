@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+killall  websockify x11vnc Xvfb
 # 创建虚拟监视器 DISPLAY=:0
 Xvfb :0 &
 

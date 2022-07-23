@@ -1,7 +1,4 @@
 version: "3.9"
-volumes:
-  baidunetdisk_storage:
-    external: true
 services:
   baidunetdisk-app:
     build: .

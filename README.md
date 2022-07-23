@@ -11,7 +11,7 @@
 
 ## 启动个容器测试可以持久化到 docker-compose 
     docker create -it \
-                --name 'debian-baidunetdisk-v1.0-container' \
+                --name 'debian-baidunetdisk-latest-container' \
                 --restart 'always' \
                 --env NOVNC_PORT=36081 --env VNC_PORT=5903 --env VNC_PASSWORD=123457 \
                 -p 36080:36081 -p 5902:5903 \
@@ -21,15 +21,15 @@
                 bash
 
 ## 复制安装包
-    docker cp package/baidunetdisk_4.3.0_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/  
-    docker cp package/libindicator3-7_0.5.0-4_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/  
-    docker cp package/libappindicator3-1_0.4.92-7_arm64.deb 'debian-baidunetdisk-v1.0-container':/root/  
+    docker cp package/baidunetdisk_4.3.0_arm64.deb 'debian-baidunetdisk-latest-container':/root/  
+    docker cp package/libindicator3-7_0.5.0-4_arm64.deb 'debian-baidunetdisk-latest-container':/root/  
+    docker cp package/libappindicator3-1_0.4.92-7_arm64.deb 'debian-baidunetdisk-latest-container':/root/  
 
 ##  启动容器
-    docker start 'debian-baidunetdisk-v1.0-container'
+    docker start 'debian-baidunetdisk-latest-container'
 
 ## 进入容器
-    docker exec -it 'debian-baidunetdisk-v1.0-container' bash
+    docker exec -it 'debian-baidunetdisk-latest-container' bash
 
 ## 容器内操作这部分可以作为构建镜像流程
     ## 检查环境变量传入情况
@@ -181,7 +181,7 @@
     http://主机IP:36080/vnc.html
 
 ## 清理测试容器，最后按照这个流程原封不动的编写构建文件构建镜像即可
-    docker stop 'debian-baidunetdisk-v1.0-container' ; docker rm -f 'debian-baidunetdisk-v1.0-container'
+    docker stop 'debian-baidunetdisk-latest-container' ; docker rm -f 'debian-baidunetdisk-latest-container'
 
 ## 目录结构
     .

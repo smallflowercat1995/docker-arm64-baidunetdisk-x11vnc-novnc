@@ -9,6 +9,6 @@ services:
       - "5902:${VNC_PORT}"
       - "36080:${NOVNC_PORT}"
     env_file:
-      - environment.env
+      - .env
     volumes:
       - ../docker-container/baidunetdisk/baidunetdiskdownload:/baidunetdiskdownload:rw

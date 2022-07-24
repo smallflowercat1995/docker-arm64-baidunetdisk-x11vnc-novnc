@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+rm -rfv /tmp/.X0-lock
 killall  websockify x11vnc Xvfb tail
 # 创建虚拟监视器 DISPLAY=:0
 Xvfb :0 &

@@ -176,6 +176,7 @@
 
     ##  干掉所有进程 
     ## procps
+    ## rm -rfv /tmp/.X0-lock
     ## killall -v websockify x11vnc baidunetdisk xterm Xvfb
 ## 访问测试 ok
     http://主机IP:36080/vnc.html

@@ -213,7 +213,7 @@
     docker-compose build --no-cache
 
 ## 构建完成后 后台启动
-    docker-compose up -d
+    docker-compose --env-file environment.env up -d
 
 ## 注意
 1、百度网盘可能启动过慢，可以稍微等个1分钟看看，超过一分钟可能是寄寄了  

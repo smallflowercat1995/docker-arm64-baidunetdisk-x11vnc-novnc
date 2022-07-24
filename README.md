@@ -188,7 +188,7 @@
     .
     ├── Dockerfile                                  # 这个是 docker 构建文件    
     ├── docker-compose.yml                          # 配置文件里面的端口映射要和环境配置文件端口保持一致，这个是 docker-compose.yml 文件  
-    ├── environment.env                             # 默认 novnc 端口号:36080 x11vnc 端口号:5902  x11vnc 密码:123456 这个是环境配置文件 
+    ├── .env                                        # 默认 novnc 端口号:36080 x11vnc 端口号:5902  x11vnc 密码:123456 这个是环境配置文件 
     └── package                                     # 这个是二进制文件、脚本、配置文件所在目录  
         ├── baidunetdisk_4.3.0_arm64.deb            # 这个是百度网盘 arm64 安装包  
         ├── dpkg-install.sh                         # 这个是构建镜像的时候在容器内执行流程的子脚本  
@@ -212,11 +212,11 @@
     # 无缓存构建
     docker-compose build --no-cache
 
-## 修改 environment.env 和 docker-compose.yml 文件后检查
-    docker-compose --env-file environment.env config
+## 修改 .env 和 docker-compose.yml 文件后检查
+    docker-compose config
 
 ## 构建完成后 后台启动
-    docker-compose --env-file environment.env up -d
+    docker-compose up -d
 
 ## 注意
 1、百度网盘可能启动过慢，可以稍微等个1分钟看看，超过一分钟可能是寄寄了  

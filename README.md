@@ -212,6 +212,9 @@
     # 无缓存构建
     docker-compose build --no-cache
 
+## 修改 environment.env 和 docker-compose.yml 文件后检查
+    docker-compose --env-file environment.env config
+
 ## 构建完成后 后台启动
     docker-compose --env-file environment.env up -d
 

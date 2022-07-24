@@ -224,13 +224,13 @@
 ## ~~缺点~~
 ~~如果断电了，容器重新启动，那么服务可能都被干掉了，不过没关系，至少容器会正常运行，就是里面的程序都不行，这个时候你就需要进入容器重新启动那些服务~~  
 
-    ~~# 进入容器目录，我的目录是 /mnt/sdb1/build-debian-baidunetdisk~~
-    ~~cd /mnt/sdb1/build-debian-baidunetdisk~~
-    ~~# 进入容器~~
-    ~~docker-compose exec -it baidunetdisk-app bash~~
-    ~~# 执行服务启动脚本~~ 
-    ~~bash /root/startapp.sh~~
-    ~~# 退出容器，ctrl + D ，这次总该可以了吧？~~
+~~# 进入容器目录，我的目录是 /mnt/sdb1/build-debian-baidunetdisk~~  
+~~cd /mnt/sdb1/build-debian-baidunetdisk~~  
+~~# 进入容器~~  
+~~docker-compose exec -it baidunetdisk-app bash~~  
+~~# 执行服务启动脚本~~   
+~~bash /root/startapp.sh~~  
+~~# 退出容器，ctrl + D ，这次总该可以了吧？~~  
 
 镜像太大，我觉得就是百度网盘需要的依赖太多，我没办法了，真的没办法了老天爷救命啊  
 <img src="https://user-images.githubusercontent.com/94947393/179397747-3b30864d-db24-4ebf-9b8b-9d59965a52e1.png" title="镜像太大" alt="镜像太大" style="zoom: 50%;" />
@@ -258,3 +258,4 @@ ps command does not work in docker container：https://stackoverflow.com/questio
 Automation framework for programmers：https://ianmiell.github.io/shutit/  
 Running a GUI application in a Docker container：https://linuxmeerkat.wordpress.com/2014/10/17/running-a-gui-application-in-a-docker-container/  
 X11vnc：https://wiki.archlinux.org/title/X11vnc#Installation  
+

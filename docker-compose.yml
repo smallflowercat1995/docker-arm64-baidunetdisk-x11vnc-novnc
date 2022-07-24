@@ -6,8 +6,8 @@ services:
     container_name: debian-baidunetdisk-latest-container
     restart: always
     ports:
-      - "5902:5903"
-      - "36080:36081"
+      - "5902:5902"
+      - "36080:36080"
     env_file:
       - environment.env
     volumes:

@@ -13,8 +13,8 @@
     docker create -it \
                 --name 'debian-baidunetdisk-latest-container' \
                 --restart 'always' \
-                --env NOVNC_PORT=36081 --env VNC_PORT=5903 --env VNC_PASSWORD=123457 \
-                -p 36080:36081 -p 5902:5903 \
+                --env NOVNC_PORT=36080 --env VNC_PORT=5902 --env VNC_PASSWORD=123456 \
+                -p 36080:36080 -p 5902:5902 \
                 -v ../docker-container/baidunetdisk/baidunetdiskdownload:/baidunetdiskdownload:rw \
                 -v ../docker-container/baidunetdisk/config:/config:rw \
                 debian:11 \
@@ -187,8 +187,8 @@
 ## 目录结构
     .
     ├── Dockerfile                                  # 这个是 docker 构建文件    
-    ├── docker-compose.yml                          # 这个是 docker-compose.yml 配置文件  
-    ├── environment.env                             # 这个是环境变量文件按自己的需求修改 默认 novnc 端口号:36081 x11vnc 端口号:5903  x11vnc 密码:123123
+    ├── docker-compose.yml                          # 这个是 docker-compose.yml 配置文件里面的端口要和环境配置文件端口保持一致  
+    ├── environment.env                             # 这个是环境配置文件默认 novnc 端口号:36081 x11vnc 端口号:5903  x11vnc 密码:123123
     └── package                                     # 这个是二进制文件、脚本、配置文件所在目录  
         ├── baidunetdisk_4.3.0_arm64.deb            # 这个是百度网盘 arm64 安装包  
         ├── dpkg-install.sh                         # 这个是构建镜像的时候在容器内执行流程的子脚本  

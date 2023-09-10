@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ../docker-container/baidunetdisk/baidunetdiskdownload:/baidunetdiskdownload:rw
+      - ./docker-container/baidunetdisk/baidunetdiskdownload:/baidunetdiskdownload:rw
     networks:
         - app_net
 networks:

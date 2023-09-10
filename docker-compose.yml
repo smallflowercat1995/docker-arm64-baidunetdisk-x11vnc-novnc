@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  baidunetdisk-app:
+    build: .
+    image: smallflowercat1995/debian-baidunetdisk:latest
+    container_name: debian-baidunetdisk-latest-container
+    restart: always
+    ports:
+      - "5902:${VNC_PORT}"
+      - "36080:${NOVNC_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ../docker-container/baidunetdisk/baidunetdiskdownload:/baidunetdiskdownload:rw
+    networks:
+        - app_net
+networks:
+  app_net:
+    driver: bridge

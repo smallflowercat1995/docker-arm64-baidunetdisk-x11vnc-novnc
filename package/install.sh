@@ -77,10 +77,10 @@ sed -i 's;http;https;g' /etc/apt/sources.list
 eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y update
 
 # 安装中文支持和解压工具
-eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y install locales pv xz-utils libindicator \
-                                                                                 libappindicator xvfb x11vnc \
+eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y install locales pv xz-utils \
+                                                                                 libasound2 xvfb x11vnc \
                                                                                  fonts-noto-cjk novnc net-tools \
-                                                                                 procps libgbm-dev libasound2
+                                                                                 procps libgbm-dev
 # 使用locale-gen命令生成中文本地支持
 sed -i 's;# zh_CN.UTF-8 UTF-8;zh_CN.UTF-8 UTF-8;g;s;en_GB.UTF-8 UTF-8;# en_GB.UTF-8 UTF-8;g' /etc/locale.gen ; locale-gen zh_CN ; locale-gen zh_CN.UTF-8
 
@@ -120,6 +120,11 @@ pv $HOME/baidunetdisk_4.3.0_arm64.tar.xz | tar -PpJxv -C $HOME/
 
 # 安装依赖
 dpkg -i $HOME/baidunetdisk_4.3.0_arm64.deb
+dpkg -i $HOME/libappindicator3-1_0.4.92-7_arm64.deb
+dpkg -i $HOME/libindicator3-7_0.5.0-4_arm64.deb
+
+# 修复依赖
+eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true install -fy
 
 #  novnc 软连接
 ln -sv /usr/share/novnc/utils/launch.sh /usr/bin/novnc

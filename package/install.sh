@@ -59,19 +59,9 @@ cp -rfv /etc/apt/sources.list.d{,.backup}
 cat << EOF | tee /etc/apt/sources.list
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
-
 deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
-
 deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
-
-deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
-
 deb http://security.debian.org/debian-security bullseye-security main contrib non-free
-deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free
 EOF
 
 # 更新软件列表源
@@ -87,8 +77,10 @@ sed -i 's;http;https;g' /etc/apt/sources.list
 eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y update
 
 # 安装中文支持和解压工具
-eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y install locales pv xz-utils
-
+eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y install locales pv xz-utils libindicator \
+                                                                                 libappindicator xvfb x11vnc \
+                                                                                 fonts-noto-cjk novnc net-tools \
+                                                                                 procps libgbm-dev libasound2
 # 使用locale-gen命令生成中文本地支持
 sed -i 's;# zh_CN.UTF-8 UTF-8;zh_CN.UTF-8 UTF-8;g;s;en_GB.UTF-8 UTF-8;# en_GB.UTF-8 UTF-8;g' /etc/locale.gen ; locale-gen zh_CN ; locale-gen zh_CN.UTF-8
 
@@ -118,27 +110,16 @@ cat /etc/default/locale
 
 install_baidunetdisk(){
 # 压缩拆分流程
-# tar -PJpcf - baidunetdisk_4.3.0_arm64.deb | (pv -p --timer --rate --bytes > baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz)
-# split -d -b 47m baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz.
-# rm -rfv baidunetdisk_4.3.0_arm64.deb baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz
+# tar -PJpcf - baidunetdisk_4.3.0_arm64.deb | (pv -p --timer --rate --bytes > baidunetdisk_4.3.0_arm64.tar.xz)
+# split -d -b 47m baidunetdisk_4.3.0_arm64.tar.xz baidunetdisk_4.3.0_arm64.tar.xz.
+# rm -rfv baidunetdisk_4.3.0_arm64.deb baidunetdisk_4.3.0_arm64.tar.xz
 
 # 将差分压缩包合并解压
-cat $HOME/baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz.* > $HOME/baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz
-pv $HOME/baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz | tar -PpJxv -C $HOME/
+cat $HOME/baidunetdisk_4.3.0_arm64.tar.xz.* > $HOME/baidunetdisk_4.3.0_arm64.tar.xz
+pv $HOME/baidunetdisk_4.3.0_arm64.tar.xz | tar -PpJxv -C $HOME/
 
 # 安装依赖
-dpkg -i $HOME/libindicator3-7_0.5.0-4_arm64.deb
-dpkg -i $HOME/libappindicator3-1_0.4.92-7_arm64.deb
 dpkg -i $HOME/baidunetdisk_4.3.0_arm64.deb
-
-# 执行三次避免失败
-for((i=1;i<4;i++)) ; do
-    echo "try $i"
-    # 修复缺失依赖
-    apt-get -y install -f
-    # 安装虚拟监视器、x11vnc、中文字体、本地字符集管理和 novnc 依赖
-    apt-get -y install xvfb x11vnc fonts-noto-cjk novnc net-tools procps libgbm-dev libasound2
-done
 
 #  novnc 软连接
 ln -sv /usr/share/novnc/utils/launch.sh /usr/bin/novnc
@@ -150,7 +131,7 @@ ln -sv /usr/share/novnc/utils/launch.sh /usr/bin/novnc
 clean_remove(){
 # 清理
 apt-get -y autoremove ; apt-get -y autopurge ; apt-get clean ; rm -rfv  /var/lib/apt/lists/* $HOME/*.deb $HOME/install.sh
-rm -rfv $HOME/baidunetdisk_4.3.0_arm64_2022-06-28.tar.xz*
+rm -rfv $HOME/baidunetdisk_4.3.0_arm64.tar.xz*
 
 # 解除环境变量
 unset NOVNC_PORT

@@ -80,7 +80,7 @@ eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y update
 eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true -y install locales pv xz-utils \
                                                                                  libasound2 xvfb x11vnc \
                                                                                  fonts-noto-cjk novnc net-tools \
-                                                                                 procps libgbm-dev
+                                                                                 procps libgbm-dev terminator
 # 使用locale-gen命令生成中文本地支持
 sed -i 's;# zh_CN.UTF-8 UTF-8;zh_CN.UTF-8 UTF-8;g;s;en_GB.UTF-8 UTF-8;# en_GB.UTF-8 UTF-8;g' /etc/locale.gen ; locale-gen zh_CN ; locale-gen zh_CN.UTF-8
 

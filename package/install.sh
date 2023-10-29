@@ -119,9 +119,9 @@ cat $HOME/baidunetdisk_4.3.0_arm64.tar.xz.* > $HOME/baidunetdisk_4.3.0_arm64.tar
 pv $HOME/baidunetdisk_4.3.0_arm64.tar.xz | tar -PpJxv -C $HOME/
 
 # 安装依赖
-dpkg -i $HOME/baidunetdisk_4.3.0_arm64.deb
-dpkg -i $HOME/libappindicator3-1_0.4.92-7_arm64.deb
 dpkg -i $HOME/libindicator3-7_0.5.0-4_arm64.deb
+dpkg -i $HOME/libappindicator3-1_0.4.92-7_arm64.deb
+dpkg -i $HOME/baidunetdisk_4.3.0_arm64.deb
 
 # 修复依赖
 eatmydata aptitude --without-recommends -o APT::Get::Fix-Missing=true install -fy

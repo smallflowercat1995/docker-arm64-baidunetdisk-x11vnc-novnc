@@ -1,7 +1,16 @@
 
 # 在 arm64 树莓派 4 B 1.1 上使用 docker 容器启动百度网盘使用 novnc 远程访问
 ## dockerhub
-<a href="https://hub.docker.com/r/smallflowercat1995/debian-baidunetdisk" title="链接">https://hub.docker.com/r/smallflowercat1995/debian-baidunetdisk</a>
+<a href="https://hub.docker.com/r/smallflowercat1995/debian-baidunetdisk" title="链接">https://hub.docker.com/r/smallflowercat1995/debian-baidunetdisk</a>  
+![Watchers](https://img.shields.io/github/watchers/smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc) ![Stars](https://img.shields.io/github/stars/smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc) ![Forks](https://img.shields.io/github/forks/smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc) ![Vistors](https://visitor-badge.laobi.icu/badge?page_id=smallflowercat1995.docker-arm64-baidunetdisk-x11vnc-novnc) ![LICENSE](https://img.shields.io/badge/license-CC%20BY--SA%204.0-green.svg)
+<a href="https://star-history.com/#smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=smallflowercat1995/docker-arm64-baidunetdisk-x11vnc-novnc&type=Date" />
+  </picture>
+</a>
+
 ## 用途
 1、当你有了一个 arm64 的设备，你又不想让它吃灰  
 2、当你不是会员，却还想每天开着电脑下载  
